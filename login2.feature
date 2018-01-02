@@ -4,67 +4,59 @@ So that I can see my account details
 
 Rules:
 	- User must be registered
-	- Login must be an e-mail address
-	- Password must be up to 60 characters
+	- Authenticate form contains two fields: login and password
+	- Login must be an e-mail address and must consist up to 60 characters
 	
-Background:
-	Given I am registered user
-	And my account is activated
 
-Scenario Outline: successful login
+Scenario: successful login
 	Given I am on a login page
 	When I fill "login" with <login>
-	And I fill "password" with <correct-password>
+	And I fill "password" with <password>
 	And click "Login" button
 	Then I am redirect to page with my profile
 	And I can see my account details - name, surname, e-mail address, mailing address
 
 Examples:
-	| login		| correct-password 		|
-	| a@a.com	| up to 60 characters	|
-	| b@b.com	| up to 60 characters	|
+	| login								| password 		|
+	| kamilaprzywara@gmail.com					| Winter		|
+	| luiza.kwadrys@intive.com					| Summer		|
+	| robert.hospodarysko@intive.com				| Cucum8er		|
+	| pansylwester.brzeczyszczykiewicz12071980123456789@gmail.com	| Miki123		|
+	| panimarzenka.brzeczyszczykiewicz120719801234567890@gmail.com	| House1207		|
 	
-	
-Background:
-	Given I am unregistered user
-	And my account is inactivated
 	
 Scenario: unregistered user
 	Given I am on a login page
-	When I fill "login" with e-mail address
-	And I fill "password"
+	When I fill "login" with <login>
+	And I fill "password" with <password>
 	And click "Login" button
 	Then I am be informed about unsuccessful login by communication "Authentication failed. Login or password are incorrect."
 	And I am redirected to login page
+	
+Examples:
+	| login								| password		|
+	| czelengerka7@gmail.com					| patr0nage		|
+	| kamila.wrzesien@intive.com					| September7		|
+	
 	
 
-Background:
-	Given I am registered user
-	And my account is activated
-	
-Scenario Outline: unsuccessful login to the application due to incorrect e-mail address
-	Given I am on a login page
-	When I fill "login" with <incorrect login>
-	And I fill "password" with <correct-password>
-	And click "Login" button
-	Then I am be informed about unsuccessful login by communication "Authentication failed. Login or password are incorrect."
-	And I am redirected to login page
-	
-Examples:
-	| incorrect login		| correct-password 		|
-	| aa					| up to 60 characters	|
-	| bb					| up to 60 characters	|
-	
-	
-Scenario Outline: unsuccessful login to the application due to incorrect password
+Scenario Outline: unsuccessful login to the application due to incorrect data
 	Given I am on a login page
 	When I fill "login" with <login>
-	And I fill "password" with <incorrect-password>
+	And I fill "password" with <password>
 	And click "Login" button
 	Then I am be informed about unsuccessful login by communication "Authentication failed. Login or password are incorrect."
 	And I am redirected to login page
 	
 Examples:
-	| login		| incorrect-password 	|
-	| a@a.com	| over 60 characters	|
-	| b@b.com	| over 60 characters	|
+	| login								| password 		|
+	| kamilaprzywar@gmail.com					| Winter		|
+	| luiza.kwadrys							| Summer		|
+	| robert.hospodarysko@intive.com				| Cucumber		|	
+	| kamilaprzywar@gmail.com					| Einter		|		
+	| kamilaprzywara@gmail						|			|	
+	|								| Winter		|
+	| k 								| Winter		|
+	| ka								| Winter
+	| tobatrlomiej.brzeczyszczykiewicz1207198012345678901@gmail.com | 1234			|
+	
